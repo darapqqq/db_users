@@ -17,17 +17,14 @@ class Ui_MainWindow(object):
         MainWindow.resize(664, 608)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
+        self.tableWidget.setEnabled(True)
         self.tableWidget.setGeometry(QtCore.QRect(20, 20, 621, 411))
         self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setShowGrid(True)
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setRowCount(0)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(0, item)
-        item = QtWidgets.QTableWidgetItem()
-        self.tableWidget.setHorizontalHeaderItem(1, item)
-        self.tableWidget.horizontalHeader().setVisible(False)
-        self.tableWidget.verticalHeader().setVisible(False)
+        
         
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setGeometry(QtCore.QRect(20, 450, 621, 31))
@@ -35,6 +32,21 @@ class Ui_MainWindow(object):
 "selection-background-color: rgb(183, 194, 207);\n"
 "font: 75 11pt \"MS Shell Dlg 2\";")
         self.pushButton.setObjectName("pushButton")
+
+        self.pushButton2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton2.setGeometry(QtCore.QRect(20, 500, 621, 31))
+        self.pushButton2.setStyleSheet("background-color: rgb(211, 215, 221);\n"
+"selection-background-color: rgb(183, 194, 207);\n"
+"font: 75 11pt \"MS Shell Dlg 2\";")
+        self.pushButton2.setObjectName("pushButton2")
+
+        self.pushButton3 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton3.setGeometry(QtCore.QRect(20, 550, 621, 31))
+        self.pushButton3.setStyleSheet("background-color: rgb(211, 215, 221);\n"
+"selection-background-color: rgb(183, 194, 207);\n"
+"font: 75 11pt \"MS Shell Dlg 2\";")
+        self.pushButton3.setObjectName("pushButton3")
+        
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 664, 21))
@@ -52,6 +64,8 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "авиабилеты"))
         
         self.pushButton.setText(_translate("MainWindow", "добавить запись"))
+        self.pushButton2.setText(_translate("MainWindow", "удалить запись"))
+        self.pushButton3.setText(_translate("MainWindow", "изменить запись"))
 
 
 if __name__ == "__main__":
