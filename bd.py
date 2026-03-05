@@ -13,14 +13,15 @@ class main_window(QMainWindow):
 
         self.connection = sqlite3.connect('my_database.db')
         self.cursor = self.connection.cursor()
-        self.createtab()
         
+        self.createtab()
         self.read_users()
+        
         self.ui.pushButton.clicked.connect(self.dob)
         self.ui.pushButton2.clicked.connect(self.delll)
         self.ui.pushButton3.clicked.connect(self.izm)
 
-    def createtab(self):
+    def createtab(self): #создание
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS Users (
         id INTEGER PRIMARY KEY,
@@ -29,13 +30,20 @@ class main_window(QMainWindow):
         age INTEGER)
         ''')
         
-        self.cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', 
-               ('newuser', 'newuser@example.com', 28))
-        self.cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', 
-               ('user1', 'newuser1@example.com', 25))
-        self.connection.commit()
+        self.cursor.execute('SELECT COUNT(*) FROM Users')
+        count = self.cursor.fetchone()[0]
+        if count == 0:
+            self.cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', 
+                   ('newuser', 'newuser@example.com', 28))
+            self.cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', 
+                   ('user1', 'newuser1@example.com', 25))
+            self.cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', 
+                   ('newuser2', 'newuser@example.com', 27))
+            self.cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', 
+                   ('user3', 'newuser1@example.com', 26))
+            self.connection.commit()
 
-    def read_users(self):
+    def read_users(self): #вывод
         self.cursor.execute('SELECT * FROM Users')
         self.usersdata = self.cursor.fetchall()
         self.ui.tableWidget.setRowCount(len(self.usersdata))
@@ -45,29 +53,33 @@ class main_window(QMainWindow):
             for j, value in enumerate(row):
                 self.ui.tableWidget.setItem(i,j,QTableWidgetItem(str(value)))
 
-    def dob(self):
+    def dob(self): #добавление
         self.cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', 
-               ('newuser', 'newuser@example.com', 28))
+           ('', '', ''))
+        self.connection.commit()
         self.read_users()
 
+    def delll(self): #удалене
+        current_row = self.ui.tableWidget.currentRow()
+        if current_row >= 0:
+            user_id = self.ui.tableWidget.item(current_row, 0).text()
+            self.cursor.execute('DELETE FROM Users WHERE id = ?', (user_id,))
+            self.connection.commit()
+            self.read_users()
+            
+    def izm(self): #изменение
+        current_row = self.ui.tableWidget.currentRow()
+        if current_row >= 0:
+            user_id = self.ui.tableWidget.item(current_row, 0).text()
+            username = self.ui.tableWidget.item(current_row, 1).text()
+            email = self.ui.tableWidget.item(current_row, 2).text()
+            age = self.ui.tableWidget.item(current_row, 3).text()
+            
+            self.cursor.execute('UPDATE Users SET username=?, email=?, age=? WHERE id=?',
+                           (username, email, age, user_id))
+            self.connection.commit()
+            self.read_users()
 
-    def delll(self):
-        row = self.ui.tableWidget.currentRow()
-        self.cursor.execute('DELETE FROM Users WHERE id = ?', (row,))
-        self.ui.tableWidget.clearSelection()
-        self.ui.tableWidget.selectRow(self.ui.tableWidget.rowCount() - 1)
-        if row == -1:
-            row = self.ui.tableWidget.rowCount() - 1
-        self.ui.tableWidget.removeRow(row)
-        
-        
-    def izm(self):
-        row = self.ui.tableWidget.currentRow()
-        cursor.execute('UPDATE Users SET age = ? WHERE id = ?', (29, row))
-
-    def close(self):
-        self.cursor.close()
-        self.connection.close()
     
 if __name__ == "__main__":
     app = QApplication(sys.argv)

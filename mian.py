@@ -9,7 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtWidgets import QTableWidget
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -21,7 +21,7 @@ class Ui_MainWindow(object):
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget.setEnabled(True)
         self.tableWidget.setGeometry(QtCore.QRect(20, 20, 621, 411))
-        self.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.tableWidget.setEditTriggers(QTableWidget.DoubleClicked)
         self.tableWidget.setShowGrid(True)
         self.tableWidget.setObjectName("tableWidget")
         
